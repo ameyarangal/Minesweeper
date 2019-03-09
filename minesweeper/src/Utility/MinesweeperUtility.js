@@ -143,4 +143,23 @@ export const calculate_board_with_Neighbors = board => {
   return board;
 };
 
-export const click_all_adjacent_0_cells = board => {};
+export const click_all_adjacent_0_cells = (board, i, j, m, n) => {
+  if (i < 0 || i >= m || j < 0 || j >= n || board[i][j]["display"] == true) {
+    return board;
+  }
+  if (board[i][j]["value"] > 0) {
+    board[i][j]["display"] = true;
+    return board;
+  }
+
+  board[i][j]["display"] = true;
+  let b1 = click_all_adjacent_0_cells(board, i + 1, j, m, n);
+  let b2 = click_all_adjacent_0_cells(b1, i - 1, j, m, n);
+  let b3 = click_all_adjacent_0_cells(b2, i, j + 1, m, n);
+  let b4 = click_all_adjacent_0_cells(b3, i, j - 1, m, n);
+  let b5 = click_all_adjacent_0_cells(b4, i + 1, j + 1, m, n);
+  let b6 = click_all_adjacent_0_cells(b5, i - 1, j - 1, m, n);
+  let b7 = click_all_adjacent_0_cells(b6, i + 1, j - 1, m, n);
+  let b8 = click_all_adjacent_0_cells(b7, i - 1, j + 1, m, n);
+  return b8;
+};
