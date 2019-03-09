@@ -1,0 +1,18 @@
+.tile {
+  width: 200px;
+  /* height: 200px; */
+  border: black;
+  border-style: solid;
+}
+
+.hide {
+  background-color: gray;
+}
+
+.show {
+  background-color: cornflowerblue;
+}
+
+.mine {
+  background-color: red;
+}
