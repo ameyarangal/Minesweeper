@@ -1,18 +1,121 @@
-.tile {
-  width: 200px;
-  /* height: 200px; */
-  border: black;
+/* .tile {
+  width: 200px; */
+/* height: 200px; */
+/* border: black;
   border-style: solid;
+
+  position: relative;
+  display: block;
+  padding-top: 100%;
+} */
+
+.tile {
+  position: relative;
+  width: 30px;
+  border: solid 1px black;
+  /* desired width */
+  /* margin: 5px; */
+}
+
+.tile:before {
+  content: "";
+  display: block;
+  padding-top: 100%;
+  /* initial ratio of 1:1*/
+}
+
+.content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  color: #fff;
+  /*   display: flex;
+  align-items: center; */
+  line-height: 100%;
+  height: 100%;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .hide {
-  background-color: gray;
+  background-color: #9b7653;
+  box-shadow: inset 0 0 5px #000000;
+  border: solid 1px gray;
 }
 
 .show {
-  background-color: mintcream;
+  background-color: #8b8680;
+  box-shadow: inset 0 0 5px #000000;
+  border: solid 1px gray;
 }
 
 .mine {
   background-color: red;
+  animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+.one {
+  color: green;
+}
+
+.two {
+  color: blue;
+}
+
+.three {
+  color: yellow;
+}
+
+.four {
+  color: aqua;
+}
+.five {
+  color: brown;
+}
+.six {
+  color: maroon;
+}
+.seven {
+  color: tomato;
+}
+.eight {
+  color: firebrick;
+}
+.default {
+  color: white;
+}
+
+.img {
+  height: 20px;
+  width: 20px;
+}
+
+@keyframes shake {
+  10%,
+  90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+
+  20%,
+  80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%,
+  60% {
+    transform: translate3d(4px, 0, 0);
+  }
 }

@@ -5,9 +5,10 @@ import Game from "./Components/Game";
 
 class App extends Component {
   render() {
+    let defaultBoard = new Array(8).fill(-10).map(() => new Array(8).fill(-10));
     return (
       <div className="App">
-        <Game rows={8} cols={8} mines={10} />
+        <Game rows={8} cols={8} mines={5} defaultBoard={defaultBoard} />
       </div>
     );
   }
