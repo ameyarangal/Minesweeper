@@ -2,10 +2,11 @@ import React, { PureComponent } from "react";
 import "./Tile.css";
 import landMine from "../Images/landMine.png";
 import Flag from "../Images/Flag.png";
+import WrongFlag from "../Images/WrongFlag.png";
 
 export default class Tile extends PureComponent {
   render() {
-    const { row, col, value, display, flag } = this.props;
+    const { row, col, value, display, flag, gameStatus } = this.props;
     let classname = "";
     switch (value) {
       case 1:
@@ -46,7 +47,12 @@ export default class Tile extends PureComponent {
           onContextMenu={e => this.props.handleRightClick(e, row, col)}
         >
           <div className="content">
-            <img src={Flag} className="img" />
+            {/* {value == -1 && <img src={Flag} className="img" />} */}
+            {value >= 0 && gameStatus === "Lost" ? (
+              <img src={WrongFlag} className="img" />
+            ) : (
+              <img src={Flag} className="img" />
+            )}
             {/* {value} */}
           </div>
         </div>

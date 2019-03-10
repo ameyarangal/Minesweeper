@@ -48,7 +48,11 @@ export default class Board extends PureComponent {
       currentBoard.push(newrow);
     });
 
-    if (this.state.flags > 0 && currentBoard[i][j]["flag"] != true) {
+    if (
+      this.state.flags > 0 &&
+      currentBoard[i][j]["flag"] != true &&
+      currentBoard[i][j]["display"] != true
+    ) {
       currentBoard[i][j]["flag"] = true;
       this.setState({
         board: currentBoard,
@@ -79,7 +83,7 @@ export default class Board extends PureComponent {
       currentBoard[i][j]["flag"] = false;
       this.setState({
         board: currentBoard,
-        flags: this.state.flag + 1
+        flags: this.state.flags + 1
       });
     }
 
@@ -330,6 +334,7 @@ export default class Board extends PureComponent {
               bsStyle="primary"
               className="button"
               onClick={() => this.validate()}
+              disabled={this.state.status === "Default" ? true : false}
             >
               Validate
             </Button>
@@ -337,6 +342,7 @@ export default class Board extends PureComponent {
               bsStyle="primary"
               className="button"
               onClick={() => this.cheat()}
+              disabled={this.state.status === "Default" ? true : false}
             >
               Cheat
             </Button>
@@ -357,6 +363,7 @@ export default class Board extends PureComponent {
                       display={board[i][j]["display"]}
                       value={board[i][j]["value"]}
                       flag={board[i][j]["flag"]}
+                      gameStatus={this.state.status}
                       onclickHandler={(i, j) => {
                         this.handleOnTileClick(i, j);
                       }}

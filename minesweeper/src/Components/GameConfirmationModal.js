@@ -16,8 +16,10 @@ export default class GameConfirmationModal extends PureComponent {
               }}
             >
               <div>
-                The game is incomplete. There are {this.props.unlclickedtiles}'s
-                safe tiles remaining to be clicked for completion.
+                {`The game is incomplete. There are ${
+                  this.props.unlclickedtiles
+                }
+                 safe tiles remaining to be clicked for completion.`}
               </div>
             </ConfirmationModal>
           </div>
