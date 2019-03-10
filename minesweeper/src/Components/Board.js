@@ -12,6 +12,7 @@ import ConfirmationModal from "./ ConfirmationModal";
 import RestartGameModal from "./RestartGameModal";
 import GameConfirmationModal from "./GameConfirmationModal";
 import NewGameModal from "./NewGameModal";
+import Timer from "./Timer";
 
 export default class Board extends PureComponent {
   state = {
@@ -27,11 +28,12 @@ export default class Board extends PureComponent {
     showNewGameModal: false,
     totalTiles: this.props.rows * this.props.cols,
     clickedTiles: 0,
-    flags: this.props.mines_number
+    flags: this.props.mines_number,
+    startTimer: false,
+    endTimer: false
   };
 
   handleRightClick = (e, i, j) => {
-    console.log(`Right clicked tile i ${i} and j ${j} `);
     e.preventDefault();
 
     // Copy existing board from state for mutation.
@@ -61,10 +63,8 @@ export default class Board extends PureComponent {
     }
   };
 
-  handleOnTileClick = (i, j) => {
-    console.log(`clicked tile i ${i} and j ${j}`);
-    console.log(this.state.board);
-
+  handleOnTileClick = (e, i, j) => {
+    e.preventDefault();
     // Copy existing board from state for mutation.
     let currentBoard = [];
     this.state.board.map((row, i) => {
@@ -101,7 +101,6 @@ export default class Board extends PureComponent {
 
       //   Update neighbors to create the entire board
       let updated_board = calculate_board_with_Neighbors(board_with_mines);
-      console.log(`updated board with neighbors`, updated_board);
 
       //   Make all tile with adjacent 0 as clicked
       let result = click_all_adjacent_0_cells(
@@ -119,7 +118,8 @@ export default class Board extends PureComponent {
         this.setState({
           board: result.board,
           status: "Playing",
-          clickedTiles: result.clicked
+          clickedTiles: result.clicked,
+          startTimer: true
         });
       }
     } else if (
@@ -175,12 +175,13 @@ export default class Board extends PureComponent {
 
   setWinningBoard = board => {
     let winningBoard = return_winning_board(board);
-    console.log(`winning board is`);
-    console.log(winningBoard);
+
     this.setState({
       board: winningBoard,
       clickedTiles: 0,
-      status: "Victory"
+      status: "Victory",
+      startTimer: false,
+      endTimer: false
     });
     setTimeout(() => {
       this.setState({ showGameConfirmation: true });
@@ -196,59 +197,63 @@ export default class Board extends PureComponent {
       }
     }
 
-    this.setState({ status: "Lost", board: board });
+    this.setState({ status: "Lost", board: board, endTimer: true });
   };
 
   cheat = () => {
-    let currentBoard = Object.assign([], this.state.board);
+    if (this.state.status === "Playing") {
+      let currentBoard = Object.assign([], this.state.board);
 
-    let cheatedboard = [];
-    this.state.board.map((row, i) => {
-      let newrow = [];
-      row.map((col, j) => {
-        if (col["value"] == -1) {
-          newrow.push({ value: -1, display: true });
-        } else {
-          newrow.push({ value: col["value"], display: col["display"] });
-        }
+      let cheatedboard = [];
+      this.state.board.map((row, i) => {
+        let newrow = [];
+        row.map((col, j) => {
+          if (col["value"] == -1) {
+            newrow.push({ value: -1, display: true });
+          } else {
+            newrow.push({ value: col["value"], display: col["display"] });
+          }
+        });
+        cheatedboard.push(newrow);
       });
-      cheatedboard.push(newrow);
-    });
 
-    this.setState({ board: cheatedboard });
+      this.setState({ board: cheatedboard });
 
-    setTimeout(() => {
-      this.setState({ board: currentBoard });
-    }, 3000);
+      setTimeout(() => {
+        this.setState({ board: currentBoard });
+      }, 3000);
+    }
   };
 
   validate = () => {
-    let tiles_clicked = 0;
-    let total_tiles = this.state.rows * this.state.cols;
-    this.state.board.map(row => {
-      row.map(col => {
-        if (col["display"] === true) {
-          tiles_clicked += 1;
-        }
+    if (this.state.status === "Playing") {
+      let tiles_clicked = 0;
+      let total_tiles = this.state.rows * this.state.cols;
+      this.state.board.map(row => {
+        row.map(col => {
+          if (col["display"] === true) {
+            tiles_clicked += 1;
+          }
+        });
       });
-    });
 
-    let unclickedtiles = total_tiles - tiles_clicked - this.state.mines_num;
-    console.log(`unclicked tiles ${unclickedtiles}`);
-    if (unclickedtiles > 0) {
-      this.setState({
-        unclickedtiles: unclickedtiles,
-        status: "Playing",
-        showGameConfirmation: true,
-        unlclickedtiles: unclickedtiles
-      });
-    } else if (unclickedtiles == 0) {
-      this.setState({
-        unclickedtiles: unclickedtiles,
-        status: "Victory",
-        showGameConfirmation: true,
-        unlclickedtiles: unclickedtiles
-      });
+      let unclickedtiles = total_tiles - tiles_clicked - this.state.mines_num;
+
+      if (unclickedtiles > 0) {
+        this.setState({
+          unclickedtiles: unclickedtiles,
+          status: "Playing",
+          showGameConfirmation: true,
+          unlclickedtiles: unclickedtiles
+        });
+      } else if (unclickedtiles == 0) {
+        this.setState({
+          unclickedtiles: unclickedtiles,
+          status: "Victory",
+          showGameConfirmation: true,
+          unlclickedtiles: unclickedtiles
+        });
+      }
     }
   };
 
@@ -262,12 +267,13 @@ export default class Board extends PureComponent {
       newBoard.push(cols);
     }
 
-    console.log("newboard", newBoard);
     this.setState({
       board: newBoard,
       showGameConfirmation: false,
       status: "Default",
-      flags: this.state.mines_num
+      flags: this.state.mines_num,
+      startTimer: false,
+      endTimer: false
     });
   };
 
@@ -276,9 +282,6 @@ export default class Board extends PureComponent {
   };
 
   handleNewGame = (rows, cols, mines, difficulty) => {
-    console.log(
-      `rows for new game ${rows} cols ${cols} mines ${mines} diffcult ${difficulty}`
-    );
     let newBoard = [];
     for (let i = 0; i < rows; i++) {
       const column = [];
@@ -287,15 +290,13 @@ export default class Board extends PureComponent {
       }
       newBoard.push(column);
     }
-    console.log("newboard");
-    console.log(newBoard);
+
     this.setState({
       board: newBoard,
       rows: rows,
       cols: cols,
       mines_num: mines,
       flags: mines,
-      //   difficulty: difficulty,
       showNewGameModal: false,
       status: "Default"
     });
@@ -346,10 +347,13 @@ export default class Board extends PureComponent {
             >
               Cheat
             </Button>
-            <h3>
-              <Badge>Flag</Badge>
-              <Alert variant="primary">{this.state.flags}</Alert>
-            </h3>
+            <div className="boardDisplay">
+              <h3 className="margin">
+                <Badge>Flag</Badge>
+                <Alert variant="primary">{this.state.flags}</Alert>
+              </h3>
+              <Timer start={this.state.startTimer} end={this.state.endTimer} />
+            </div>
           </div>
 
           {board.map((row, i) => {
@@ -364,8 +368,8 @@ export default class Board extends PureComponent {
                       value={board[i][j]["value"]}
                       flag={board[i][j]["flag"]}
                       gameStatus={this.state.status}
-                      onclickHandler={(i, j) => {
-                        this.handleOnTileClick(i, j);
+                      onclickHandler={(e, i, j) => {
+                        this.handleOnTileClick(e, i, j);
                       }}
                       handleRightClick={(e, i, j) =>
                         this.handleRightClick(e, i, j)

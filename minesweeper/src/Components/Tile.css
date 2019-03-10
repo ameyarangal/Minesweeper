@@ -41,13 +41,13 @@
   justify-content: center;
 }
 
-.hide {
+.hideTile {
   background-color: #9b7653;
   box-shadow: inset 0 0 5px #000000;
   border: solid 1px gray;
 }
 
-.show {
+.showTile {
   background-color: #8b8680;
   box-shadow: inset 0 0 5px #000000;
   border: solid 1px gray;
@@ -62,7 +62,7 @@
 }
 
 .one {
-  color: green;
+  color: darkgreen;
 }
 
 .two {

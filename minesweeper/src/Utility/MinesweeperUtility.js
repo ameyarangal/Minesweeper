@@ -196,33 +196,4 @@ export const click_all_adjacent_0_cells = (board, i, j, m, n, count) => {
   let r7 = click_all_adjacent_0_cells(r6.board, i + 1, j - 1, m, n, r6.clicked);
   let r8 = click_all_adjacent_0_cells(r7.board, i - 1, j + 1, m, n, r7.clicked);
   return r8;
-  // click_all_adjacent_0_cells(board, i + 1, j, m, n, count);
-  // click_all_adjacent_0_cells(board, i - 1, j, m, n, count);
-  // click_all_adjacent_0_cells(board, i, j + 1, m, n, count);
-  // click_all_adjacent_0_cells(board, i, j - 1, m, n, count);
-  // click_all_adjacent_0_cells(board, i + 1, j + 1, m, n, count);
-  // click_all_adjacent_0_cells(board, i - 1, j - 1, m, n, count);
-  // click_all_adjacent_0_cells(board, i + 1, j - 1, m, n, count);
-  // click_all_adjacent_0_cells(board, i - 1, j + 1, m, n, count);
-
-  // return { board: board, clicked: count };
-
-  // if (i < 0 || i >= m || j < 0 || j >= n || board[i][j]["display"] == true) {
-  //   return;
-  // }
-  // if (board[i][j]["value"] > 0) {
-  //   board[i][j]["display"] = true;
-  //   return;
-  // }
-
-  // board[i][j]["display"] = true;
-  // click_all_adjacent_0_cells(board, i + 1, j, m, n);
-  // click_all_adjacent_0_cells(board, i - 1, j, m, n);
-  // click_all_adjacent_0_cells(board, i, j + 1, m, n);
-  // click_all_adjacent_0_cells(board, i, j - 1, m, n);
-  // click_all_adjacent_0_cells(board, i + 1, j + 1, m, n);
-  // click_all_adjacent_0_cells(board, i - 1, j - 1, m, n);
-  // click_all_adjacent_0_cells(board, i + 1, j - 1, m, n);
-  // click_all_adjacent_0_cells(board, i - 1, j + 1, m, n);
-  // return board;
 };

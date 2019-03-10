@@ -42,8 +42,8 @@ export default class Tile extends PureComponent {
     if (flag) {
       return (
         <div
-          className="tile hide"
-          onClick={() => this.props.onclickHandler(row, col)}
+          className="tile hideTile"
+          onClick={e => this.props.onclickHandler(e, row, col)}
           onContextMenu={e => this.props.handleRightClick(e, row, col)}
         >
           <div className="content">
@@ -61,8 +61,8 @@ export default class Tile extends PureComponent {
     if (value == -1) {
       return (
         <div
-          className={display == true ? "tile show mine" : "tile hide "}
-          onClick={() => this.props.onclickHandler(row, col)}
+          className={display == true ? "tile showTile mine" : "tile hideTile "}
+          onClick={e => this.props.onclickHandler(e, row, col)}
           onContextMenu={e => this.props.handleRightClick(e, row, col)}
         >
           <div className="content">
@@ -74,8 +74,8 @@ export default class Tile extends PureComponent {
     } else if (value > 0) {
       return (
         <div
-          className={display == true ? "tile show" : "tile hide"}
-          onClick={() => this.props.onclickHandler(row, col)}
+          className={display == true ? "tile showTile" : "tile hideTile"}
+          onClick={e => this.props.onclickHandler(e, row, col)}
           onContextMenu={e => this.props.handleRightClick(e, row, col)}
         >
           <div className="content">
@@ -86,8 +86,8 @@ export default class Tile extends PureComponent {
     } else if (value == 0) {
       return (
         <div
-          className={display == true ? "tile show" : "tile hide"}
-          onClick={() => this.props.onclickHandler(row, col)}
+          className={display == true ? "tile showTile" : "tile hideTile"}
+          onClick={e => this.props.onclickHandler(e, row, col)}
           onContextMenu={e => this.props.handleRightClick(e, row, col)}
         >
           <div className="content"> </div>
@@ -96,8 +96,8 @@ export default class Tile extends PureComponent {
     }
     return (
       <div
-        className="tile hide"
-        onClick={() => this.props.onclickHandler(row, col)}
+        className="tile hideTile"
+        onClick={e => this.props.onclickHandler(e, row, col)}
         onContextMenu={e => this.props.handleRightClick(e, row, col)}
       >
         <div className="content"> </div>
