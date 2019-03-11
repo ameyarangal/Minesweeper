@@ -8,7 +8,13 @@ class App extends Component {
     let defaultBoard = new Array(8).fill(-10).map(() => new Array(8).fill(-10));
     return (
       <div className="App">
-        <Game rows={8} cols={8} mines={10} defaultBoard={defaultBoard} />
+        <Game
+          rows={8}
+          cols={8}
+          mines={10}
+          defaultBoard={defaultBoard}
+          difficulty="Easy"
+        />
       </div>
     );
   }

@@ -1,4 +1,4 @@
-import React, { Component, PureComponent } from "react";
+import React, { PureComponent } from "react";
 import { Button, Alert, Badge } from "react-bootstrap";
 import Tile from "./Tile";
 import "./Board.css";
@@ -8,8 +8,6 @@ import {
   click_all_adjacent_0_cells,
   return_winning_board
 } from "../Utility/MinesweeperUtility";
-import ConfirmationModal from "./ ConfirmationModal";
-import RestartGameModal from "./RestartGameModal";
 import GameConfirmationModal from "./GameConfirmationModal";
 import NewGameModal from "./NewGameModal";
 import Timer from "./Timer";
@@ -20,6 +18,7 @@ export default class Board extends PureComponent {
     rows: this.props.rows,
     cols: this.props.cols,
     mines_num: this.props.mines_number,
+    difficulty: this.props.difficulty,
     status: "Default",
     unlclickedtiles: this.props.rows * this.props.cols,
     showRestartGame: false,
@@ -34,14 +33,15 @@ export default class Board extends PureComponent {
     restartTimer: false
   };
 
+  //   Handles functionality when user right clicks on a particular tile (i, j)
   handleRightClick = (e, i, j) => {
     e.preventDefault();
 
-    // Copy existing board from state for mutation.
+    // Copy existing board from state so as to avoid mutating the state directly.
     let currentBoard = [];
-    this.state.board.map((row, i) => {
+    this.state.board.map(row => {
       let newrow = [];
-      row.map((col, j) => {
+      row.map(col => {
         newrow.push({
           value: col["value"],
           display: col["display"],
@@ -51,6 +51,7 @@ export default class Board extends PureComponent {
       currentBoard.push(newrow);
     });
 
+    // Place a flag if the selected tile has no flag on it and is not already displayed.
     if (
       this.state.flags > 0 &&
       currentBoard[i][j]["flag"] != true &&
@@ -64,13 +65,15 @@ export default class Board extends PureComponent {
     }
   };
 
+  //   Handles functionality when user left clicks on a particular tile.
   handleOnTileClick = (e, i, j) => {
     e.preventDefault();
-    // Copy existing board from state for mutation.
+
+    // Copy existing board from state so as to avoid mutating the state directly.
     let currentBoard = [];
-    this.state.board.map((row, i) => {
+    this.state.board.map(row => {
       let newrow = [];
-      row.map((col, j) => {
+      row.map(col => {
         newrow.push({
           value: col["value"],
           display: col["display"],
@@ -80,6 +83,7 @@ export default class Board extends PureComponent {
       currentBoard.push(newrow);
     });
 
+    // If user clicks on a flagged tile, it should be unflagged.
     if (currentBoard[i][j]["flag"] == true) {
       currentBoard[i][j]["flag"] = false;
       this.setState({
@@ -92,7 +96,7 @@ export default class Board extends PureComponent {
     else if (this.state.status === "Default") {
       currentBoard[i][j]["value"] = 0;
 
-      //   Place mines on the board.
+      // Place random mines on the board providing the initial clicked tile position.
       let board_with_mines = placeMines(
         this.state.mines_num,
         currentBoard,
@@ -100,10 +104,10 @@ export default class Board extends PureComponent {
         j
       );
 
-      //   Update neighbors to create the entire board
+      // Update board where every tile is filled with number of neighboring mines value.
       let updated_board = calculate_board_with_Neighbors(board_with_mines);
 
-      //   Make all tile with adjacent 0 as clicked
+      // Make all the neighbouring tiles appeared as click.
       let result = click_all_adjacent_0_cells(
         updated_board,
         i,
@@ -113,6 +117,7 @@ export default class Board extends PureComponent {
         0
       );
 
+      // Check for game status.
       if (this.isGameWon(result.clicked)) {
         this.setWinningBoard(result.board);
       } else {
@@ -128,6 +133,7 @@ export default class Board extends PureComponent {
       currentBoard[i][j]["value"] === 0 &&
       this.state.status == "Playing"
     ) {
+      // If the game is started and clicked tile is 0 then make all the adjacent tiles clicked.
       let result = click_all_adjacent_0_cells(
         currentBoard,
         i,
@@ -136,6 +142,8 @@ export default class Board extends PureComponent {
         this.state.board[0].length,
         0
       );
+
+      // Check game status.
       if (this.isGameWon(this.state.clickedTiles + result.clicked)) {
         this.setWinningBoard(result.board);
       } else {
@@ -148,6 +156,7 @@ export default class Board extends PureComponent {
       currentBoard[i][j]["value"] > 0 &&
       this.state.status == "Playing"
     ) {
+      // When user clicks a non zero tile while playing display only that tile.
       currentBoard[i][j]["display"] = true;
 
       if (this.isGameWon(this.state.clickedTiles + 1)) {
@@ -159,13 +168,15 @@ export default class Board extends PureComponent {
         });
       }
     } else {
+      // User loses as he clicks mine, so we set the board state to failed board.
       this.setFailedBoard(currentBoard);
-      //   setTimeout(() => {
-      //     this.setState({ showGameConfirmation: true });
-      //   }, 2000);
     }
   };
 
+  // Function to determine whether the game is Won or not depending on the tiles clicked and safe tile.
+  //   safe tiles = total tiles - number of mines
+  // tiles clicked = total tiles clicked by the user.
+  // Returns - Boolean
   isGameWon = tilesClicked => {
     let safe_tiles = this.state.rows * this.state.cols - this.state.mines_num;
     if (safe_tiles == tilesClicked) {
@@ -175,6 +186,8 @@ export default class Board extends PureComponent {
     }
   };
 
+  // Updates the state with the winning board, marks the game status as Victory, end the timer
+  // and shows the confirmation modal.
   setWinningBoard = board => {
     let winningBoard = return_winning_board(board);
 
@@ -186,11 +199,10 @@ export default class Board extends PureComponent {
       endTimer: false,
       showGameConfirmation: true
     });
-    // setTimeout(() => {
-    //   this.setState({ showGameConfirmation: true });
-    // }, 2000);
   };
 
+  // Updates the state with the losing board, marks the game state as Lost, end the timer
+  // and shows the confirmation modal.
   setFailedBoard = board => {
     for (let i = 0; i < board.length; i++) {
       for (let j = 0; j < board[0].length; j++) {
@@ -208,14 +220,17 @@ export default class Board extends PureComponent {
     });
   };
 
+  // Function to show the location of the mines temporarily (for 3 sec's) on the UI
+  // when the user has started the game.
   cheat = () => {
     if (this.state.status === "Playing") {
       let currentBoard = Object.assign([], this.state.board);
 
+      // Copy the board to create a cheated board where we display the mine location.
       let cheatedboard = [];
-      this.state.board.map((row, i) => {
+      this.state.board.map(row => {
         let newrow = [];
-        row.map((col, j) => {
+        row.map(col => {
           if (col["value"] == -1) {
             newrow.push({ value: -1, display: true });
           } else {
@@ -227,44 +242,31 @@ export default class Board extends PureComponent {
 
       this.setState({ board: cheatedboard });
 
+      // Replace the board with the one that the user was plating before he hit cheat button.
       setTimeout(() => {
         this.setState({ board: currentBoard });
       }, 3000);
     }
   };
 
+  // Function to show the status of the game, we give information on remaining tiles that needs
+  // to be clicked to win the game. We check only for playing status as on Win and lose we give the
+  // confirmation modal directly.
   validate = () => {
     if (this.state.status === "Playing") {
-      let tiles_clicked = 0;
       let total_tiles = this.state.rows * this.state.cols;
-      this.state.board.map(row => {
-        row.map(col => {
-          if (col["display"] === true) {
-            tiles_clicked += 1;
-          }
-        });
+      let unclickedtiles =
+        total_tiles - this.state.clickedTiles - this.state.mines_num;
+
+      this.setState({
+        status: "Playing",
+        showGameConfirmation: true,
+        unlclickedtiles: unclickedtiles
       });
-
-      let unclickedtiles = total_tiles - tiles_clicked - this.state.mines_num;
-
-      if (unclickedtiles > 0) {
-        this.setState({
-          unclickedtiles: unclickedtiles,
-          status: "Playing",
-          showGameConfirmation: true,
-          unlclickedtiles: unclickedtiles
-        });
-      } else if (unclickedtiles == 0) {
-        this.setState({
-          unclickedtiles: unclickedtiles,
-          status: "Victory",
-          showGameConfirmation: true,
-          unlclickedtiles: unclickedtiles
-        });
-      }
     }
   };
 
+  // On restart game, we create a new board hacing same rows and cols.
   restartGame = () => {
     let newBoard = [];
     for (let i = 0; i < this.state.rows; i++) {
@@ -286,10 +288,13 @@ export default class Board extends PureComponent {
     });
   };
 
+  // When new game button is clicked we show the modal for taking the new connfiguration.
   newGame = () => {
     this.setState({ showNewGameModal: true });
   };
 
+  // Callback function which creates the new board depending on the new configuration and reset the rows, cols
+  // mines value according to the new values.
   handleNewGame = (rows, cols, mines, difficulty) => {
     let newBoard = [];
     for (let i = 0; i < rows; i++) {
@@ -305,6 +310,7 @@ export default class Board extends PureComponent {
       rows: rows,
       cols: cols,
       mines_num: mines,
+      difficulty: difficulty,
       flags: mines,
       showNewGameModal: false,
       status: "Default",
@@ -314,7 +320,6 @@ export default class Board extends PureComponent {
 
   render() {
     const board = this.state.board;
-    console.log(board);
     return (
       <div>
         <GameConfirmationModal
@@ -345,7 +350,7 @@ export default class Board extends PureComponent {
               bsstyle="primary"
               className="button"
               onClick={() => this.validate()}
-              disabled={this.state.status === "Default" ? true : false}
+              disabled={this.state.status !== "Playing" ? true : false}
             >
               Validate
             </Button>
@@ -353,7 +358,7 @@ export default class Board extends PureComponent {
               bsstyle="primary"
               className="button"
               onClick={() => this.cheat()}
-              disabled={this.state.status === "Default" ? true : false}
+              disabled={this.state.status !== "Playing" ? true : false}
             >
               Cheat
             </Button>

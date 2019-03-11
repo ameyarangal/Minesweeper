@@ -1,18 +1,19 @@
 import React, { PureComponent } from "react";
 import { Modal, Button, Form, Row, Col } from "react-bootstrap";
 
+const difficultyLevel = [
+  { Name: "Easy", Rows: 8, Cols: 8, Mines: 10 },
+  { Name: "Medium", Rows: 16, Cols: 16, Mines: 40 },
+  { Name: "Expert", Rows: 16, Cols: 30, Mines: 99 },
+  { Name: "Custom", Rows: "", Cols: "", Mines: "" }
+];
+
 export default class NewGameModal extends PureComponent {
   constructor(props) {
     super(props);
-    let difficultyLevel = [
-      { Name: "Easy", Rows: 8, Cols: 8, Mines: 10 },
-      { Name: "Medium", Rows: 16, Cols: 16, Mines: 40 },
-      { Name: "Expert", Rows: 16, Cols: 30, Mines: 99 },
-      { Name: "Custom", Rows: "", Cols: "", Mines: "" }
-    ];
 
     this.state = {
-      difficulty: difficultyLevel,
+      difficulty: "",
       rows: 0,
       cols: 0,
       mines: 0,
@@ -32,10 +33,11 @@ export default class NewGameModal extends PureComponent {
         rows: data.Rows,
         cols: data.Cols,
         mines: data.Mines,
-        showCustom: false
+        showCustom: false,
+        difficulty: data.Name
       });
     } else {
-      this.setState({ showCustom: true });
+      this.setState({ showCustom: true, difficulty: "Custom" });
     }
   };
 
@@ -64,7 +66,7 @@ export default class NewGameModal extends PureComponent {
                   </Form.Group>
                 </Form.Row>
 
-                {this.state.difficulty.map((d, i) => {
+                {difficultyLevel.map((d, i) => {
                   if (d.Name !== "Custom") {
                     return (
                       <Form.Row key={"formRow" + i}>

@@ -23,6 +23,7 @@ export default class Game extends PureComponent {
           mines_number={this.props.mines}
           rows={this.props.rows}
           cols={this.props.cols}
+          difficulty={this.props.difficulty}
         />
       </div>
     );

@@ -1,25 +1,25 @@
+// Function to place n mines on the given board except for the initial clicked tile (i, j)
+// Returns - Board with mines places randomly.
 export const placeMines = (minesToBePlaced, board, i, j) => {
   let m = board.length;
   let n = board[0].length;
-  //   let mines_location = [];
-  console.log(`place mines except i ${i} and j ${j}`);
-  console.log(`place ${minesToBePlaced} in board`);
-  console.log(`board in place mines`);
-  console.log(board);
+
   while (minesToBePlaced > 0) {
     let row = Math.floor(Math.random() * Math.floor(m));
     let col = Math.floor(Math.random() * Math.floor(n));
 
     if (isMineLocationValid(row, col, i, j, board)) {
       board[row][col]["value"] = -1;
-      //   mines_location.push([i, j]);
       minesToBePlaced = minesToBePlaced - 1;
     }
   }
-  console.log(`board with mines`, board);
   return board;
 };
 
+// Helper function to determine if a mine can be placed at a particular location.
+// Checks if the random location is not in immediate neighbor of the initial clicked
+// tile as we need 0 to start the game.
+// Returns - Boolean whether a mine can be placed on given tile position.
 const isMineLocationValid = (
   row,
   col,
@@ -103,9 +103,11 @@ const isMineLocationValid = (
   return true;
 };
 
+// Function to calculate number of mines present within 8 neighbors for a particular tile.
+// Returns - Number of mines present in the 8 neighbors for a particular tile at (i, j)
 export const calculateNeighbors = (board, i, j, m, n) => {
   let count = 0;
-  //   console.log(`calculate neighbors`, board);
+
   if (i + 1 < m && board[i + 1][j]["value"] == -1) {
     count += 1;
   }
@@ -134,6 +136,9 @@ export const calculateNeighbors = (board, i, j, m, n) => {
   return count;
 };
 
+// Function to update the given board with count of neighbouring mines for each tile
+// in the board.
+// Returns - Updated board with each (i, j) location filled with neighbouring mines count.
 export const calculate_board_with_Neighbors = board => {
   let m = board.length;
   let n = board[0].length;
@@ -147,35 +152,26 @@ export const calculate_board_with_Neighbors = board => {
   return board;
 };
 
+// Function to calculate the board when player has won. This will display all
+// the flags on the board where there are mines.
+// Returns - Updated winning board.
 export const return_winning_board = board => {
-  let winning_board = [];
-  board.map(row => {
-    let column = [];
-    row.map(col => {
-      if (col["value"] == -1) {
-        column.push({ value: col["value"], display: true, flag: true });
-      } else {
-        column.push({ value: col["value"], display: true, flag: false });
+  for (let i = 0; i < board.length; i++) {
+    for (let j = 0; j < board[0].length; j++) {
+      if (board[i][j]["value"] == -1) {
+        board[i][j]["display"] = true;
+        board[i][j]["flag"] = true;
       }
-    });
-    winning_board.push(column);
-  });
-  return winning_board;
-
-  //   for (let i = 0; i < board.length; i++) {
-  //     for (let j = 0; j < board[0].length; j++) {
-  //       if (board[i][j]["value"] == -1) {
-  //         board[i][j]["display"] = true;
-  //         board[i][j]["flag"] = true;
-  //       }
-  //     }
-  //     return board;
-  //   }
+    }
+  }
+  return board;
 };
 
+// Function that updates all the neighboring 0's and first non zero (except mines) tile.
+// To enable this I have applied DFS algorithm starting from the position of 0'th tile.
+// Returns - Updated board with all the neighboring 0's and non mine tiles displayed and also the
+// count of tiles clicked in the process.
 export const click_all_adjacent_0_cells = (board, i, j, m, n, count) => {
-  console.log(`dfs`);
-  console.log(count);
   if (i < 0 || i >= m || j < 0 || j >= n || board[i][j]["display"] == true) {
     return { board: board, clicked: count };
   }

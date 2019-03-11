@@ -39,7 +39,10 @@ export default class Tile extends PureComponent {
         classname += "default";
         break;
     }
+
     if (flag) {
+      // When a tile is flagged it is hidden by default. But if the player loses and the flagged tile is non mine
+      // then we mark the tile as wrongly marked.
       return (
         <div
           className="tile hideTile"
@@ -47,18 +50,17 @@ export default class Tile extends PureComponent {
           onContextMenu={e => this.props.handleRightClick(e, row, col)}
         >
           <div className="content">
-            {/* {value == -1 && <img src={Flag} className="img" />} */}
             {value >= 0 && gameStatus === "Lost" ? (
               <img src={WrongFlag} className="img" />
             ) : (
               <img src={Flag} className="img" />
             )}
-            {/* {value} */}
           </div>
         </div>
       );
     }
     if (value == -1) {
+      // If the tile is a mine then depending on display property we decide whether to show the mine or not.
       return (
         <div
           className={display == true ? "tile showTile mine" : "tile hideTile "}
@@ -67,11 +69,12 @@ export default class Tile extends PureComponent {
         >
           <div className="content">
             {display && <img src={landMine} className="img" />}
-            {/* {value} */}
           </div>
         </div>
       );
     } else if (value > 0) {
+      // If the tile is non mine then depending on display property we decide whether to show the neighbouring
+      // mine count or not.
       return (
         <div
           className={display == true ? "tile showTile" : "tile hideTile"}
@@ -84,6 +87,8 @@ export default class Tile extends PureComponent {
         </div>
       );
     } else if (value == 0) {
+      // If the tile is 0 tile then depending on display property we decide whether to show the empty tile
+      // or not.
       return (
         <div
           className={display == true ? "tile showTile" : "tile hideTile"}
@@ -95,6 +100,7 @@ export default class Tile extends PureComponent {
       );
     }
     return (
+      // This is to accomodate the case when the game has not started.
       <div
         className="tile hideTile"
         onClick={e => this.props.onclickHandler(e, row, col)}
