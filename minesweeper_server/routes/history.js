@@ -24,6 +24,16 @@ router.get("/getByUserId/:userid", function(req, res, next) {
   });
 });
 
+router.get("/getLeaderBoard", function(req, res, next) {
+  history.getLeaderBoard(function(err, rows) {
+    if (err) {
+      res.json(err);
+    } else {
+      res.json(rows);
+    }
+  });
+});
+
 router.post("/", function(req, res, next) {
   console.log("request body");
   console.log(req.body);

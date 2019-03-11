@@ -5,6 +5,12 @@ var History = {
     console.log(`get all history`);
     return db.query("Select * from History;", callback);
   },
+  getLeaderBoard: function(callback) {
+    return db.query(
+      "select Users.FirstName, Users.LastName, History.Score, History.Difficulty, History.Date from Users inner join History on Users.Id = History.UserId order by History.Score desc;",
+      callback
+    );
+  },
   getHistoryByUserId: function(userid, callback) {
     return db.query(
       "Select * from History where UserId=?;",
