@@ -2,6 +2,7 @@ import { LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT } from "../Constants/Constants";
 
 const initialState = {
   isLoggedIn: false,
+  Id: null,
   FirstName: null,
   LastName: null,
   Username: null,
@@ -14,6 +15,7 @@ export default (state = initialState, { type, payload }) => {
       return {
         ...state,
         isLoggedIn: true,
+        Id: payload.Id,
         FirstName: payload.FirstName,
         LastName: payload.LastName,
         Username: payload.Username

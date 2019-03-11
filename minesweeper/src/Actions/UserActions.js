@@ -42,3 +42,30 @@ function logout_user() {
     payload: null
   };
 }
+
+export const register = (
+  firstName,
+  lastName,
+  username,
+  password,
+  onSuccessfulRegister
+) => dispatch => {
+  let url = `http://localhost:3010/users/`;
+  let postdata = {
+    FirstName: firstName,
+    LastName: lastName,
+    username: username,
+    password: password
+  };
+  postApi(
+    url,
+    data => {
+      console.log(`data in login success`, data);
+      onSuccessfulRegister();
+    },
+    err => {
+      console.log("one error of register", err);
+    },
+    postdata
+  );
+};
