@@ -30,7 +30,8 @@ export default class Board extends PureComponent {
     clickedTiles: 0,
     flags: this.props.mines_number,
     startTimer: false,
-    endTimer: false
+    endTimer: false,
+    restartTimer: false
   };
 
   handleRightClick = (e, i, j) => {
@@ -119,7 +120,8 @@ export default class Board extends PureComponent {
           board: result.board,
           status: "Playing",
           clickedTiles: result.clicked,
-          startTimer: true
+          startTimer: true,
+          restartTimer: false
         });
       }
     } else if (
@@ -158,9 +160,9 @@ export default class Board extends PureComponent {
       }
     } else {
       this.setFailedBoard(currentBoard);
-      setTimeout(() => {
-        this.setState({ showGameConfirmation: true });
-      }, 2000);
+      //   setTimeout(() => {
+      //     this.setState({ showGameConfirmation: true });
+      //   }, 2000);
     }
   };
 
@@ -181,11 +183,12 @@ export default class Board extends PureComponent {
       clickedTiles: 0,
       status: "Victory",
       startTimer: false,
-      endTimer: false
+      endTimer: false,
+      showGameConfirmation: true
     });
-    setTimeout(() => {
-      this.setState({ showGameConfirmation: true });
-    }, 2000);
+    // setTimeout(() => {
+    //   this.setState({ showGameConfirmation: true });
+    // }, 2000);
   };
 
   setFailedBoard = board => {
@@ -197,7 +200,12 @@ export default class Board extends PureComponent {
       }
     }
 
-    this.setState({ status: "Lost", board: board, endTimer: true });
+    this.setState({
+      status: "Lost",
+      board: board,
+      endTimer: true,
+      showGameConfirmation: true
+    });
   };
 
   cheat = () => {
@@ -273,7 +281,8 @@ export default class Board extends PureComponent {
       status: "Default",
       flags: this.state.mines_num,
       startTimer: false,
-      endTimer: false
+      endTimer: false,
+      restartTimer: true
     });
   };
 
@@ -298,7 +307,8 @@ export default class Board extends PureComponent {
       mines_num: mines,
       flags: mines,
       showNewGameModal: false,
-      status: "Default"
+      status: "Default",
+      restartTimer: true
     });
   };
 
@@ -325,14 +335,14 @@ export default class Board extends PureComponent {
         <div className="boardContainer">
           <div className="boardControls">
             <Button
-              bsStyle="primary"
+              bsstyle="primary"
               className="button"
               onClick={() => this.newGame()}
             >
               New Game
             </Button>
             <Button
-              bsStyle="primary"
+              bsstyle="primary"
               className="button"
               onClick={() => this.validate()}
               disabled={this.state.status === "Default" ? true : false}
@@ -340,7 +350,7 @@ export default class Board extends PureComponent {
               Validate
             </Button>
             <Button
-              bsStyle="primary"
+              bsstyle="primary"
               className="button"
               onClick={() => this.cheat()}
               disabled={this.state.status === "Default" ? true : false}
@@ -352,16 +362,21 @@ export default class Board extends PureComponent {
                 <Badge>Flag</Badge>
                 <Alert variant="primary">{this.state.flags}</Alert>
               </h3>
-              <Timer start={this.state.startTimer} end={this.state.endTimer} />
+              <Timer
+                start={this.state.startTimer}
+                end={this.state.endTimer}
+                restart={this.state.restartTimer}
+              />
             </div>
           </div>
 
           {board.map((row, i) => {
             return (
-              <div className="boardRow">
+              <div key={"row" + i} className="boardRow">
                 {row.map((obj, j) => {
                   return (
                     <Tile
+                      key={"col" + j}
                       row={i}
                       col={j}
                       display={board[i][j]["display"]}

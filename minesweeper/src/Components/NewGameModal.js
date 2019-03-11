@@ -67,7 +67,7 @@ export default class NewGameModal extends PureComponent {
                 {this.state.difficulty.map((d, i) => {
                   if (d.Name !== "Custom") {
                     return (
-                      <Form.Row>
+                      <Form.Row key={"formRow" + i}>
                         <Form.Group as={Col} md="6">
                           <Form.Check
                             type="radio"
@@ -90,7 +90,7 @@ export default class NewGameModal extends PureComponent {
                     );
                   } else {
                     return (
-                      <Form.Row>
+                      <Form.Row key={"formRow" + i}>
                         <Form.Group as={Col} md="6">
                           <Form.Check
                             type="radio"

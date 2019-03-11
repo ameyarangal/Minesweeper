@@ -12,7 +12,9 @@ export default class Timer extends PureComponent {
 
   componentDidMount() {
     setInterval(() => {
-      console.log(`interval Called`);
+      if (this.props.restart) {
+        this.setState({ counter: 0 });
+      }
       if (this.props.start && !this.props.end) {
         this.setState({ counter: this.state.counter + 1 });
       }
