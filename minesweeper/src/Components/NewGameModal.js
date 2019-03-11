@@ -141,7 +141,7 @@ export default class NewGameModal extends PureComponent {
               Close
             </Button>
             <Button
-              variant="primary"
+              variant="dark"
               onClick={() =>
                 this.props.handleOk(
                   this.state.rows,

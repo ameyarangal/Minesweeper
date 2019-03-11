@@ -29,7 +29,7 @@ export default class ConfirmationModal extends Component {
             >
               Close
             </Button>
-            <Button variant="primary" onClick={() => this.props.handleOk()}>
+            <Button variant="dark" onClick={() => this.props.handleOk()}>
               Ok
             </Button>
           </Modal.Footer>

@@ -340,14 +340,14 @@ export default class Board extends PureComponent {
         <div className="boardContainer">
           <div className="boardControls">
             <Button
-              bsstyle="primary"
+              variant="dark"
               className="button"
               onClick={() => this.newGame()}
             >
               New Game
             </Button>
             <Button
-              bsstyle="primary"
+              variant="dark"
               className="button"
               onClick={() => this.validate()}
               disabled={this.state.status !== "Playing" ? true : false}
@@ -355,7 +355,7 @@ export default class Board extends PureComponent {
               Validate
             </Button>
             <Button
-              bsstyle="primary"
+              variant="dark"
               className="button"
               onClick={() => this.cheat()}
               disabled={this.state.status !== "Playing" ? true : false}
@@ -365,7 +365,7 @@ export default class Board extends PureComponent {
             <div className="boardDisplay">
               <h3 className="margin">
                 <Badge>Flag</Badge>
-                <Alert variant="primary">{this.state.flags}</Alert>
+                <Alert variant="secondary">{this.state.flags}</Alert>
               </h3>
               <Timer
                 start={this.state.startTimer}

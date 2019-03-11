@@ -1,8 +1,14 @@
 import React, { PureComponent } from "react";
-import { Navbar, Nav } from "react-bootstrap";
+import { Navbar, Nav, Button } from "react-bootstrap";
 import { Link, NavLink } from "react-router-dom";
+import { connect } from "react-redux";
+import { logout } from "../Actions/UserActions";
+import "./Header.css";
 
-export default class Header extends PureComponent {
+class Header extends PureComponent {
+  handleLogout = () => {
+    this.props.logout();
+  };
   render() {
     return (
       <div>
@@ -19,17 +25,44 @@ export default class Header extends PureComponent {
                 Leader Board
               </Link>
             </Nav>
-            <Nav>
-              <Link to="/login" className="nav-link">
-                Login
-              </Link>
-              <Link to="/register" className="nav-link">
-                Register
-              </Link>
-            </Nav>
+
+            {this.props.isLoggedIn ? (
+              <Nav>
+                <Navbar.Text>
+                  Logged in as: {this.props.FirstName} {this.props.LastName}
+                </Navbar.Text>
+                <Button
+                  className="logout"
+                  variant="outline-secondary"
+                  onClick={() => this.handleLogout()}
+                >
+                  Logout
+                </Button>
+              </Nav>
+            ) : (
+              <Nav>
+                <Link to="/login" className="nav-link">
+                  Login
+                </Link>
+                <Link to="/register" className="nav-link">
+                  Register
+                </Link>
+              </Nav>
+            )}
           </Navbar.Collapse>
         </Navbar>
       </div>
     );
   }
 }
+
+const mapStateToProps = state => ({
+  isLoggedIn: state.user.isLoggedIn,
+  FirstName: state.user.FirstName,
+  LastName: state.user.LastName
+});
+
+export default connect(
+  mapStateToProps,
+  { logout }
+)(Header);
