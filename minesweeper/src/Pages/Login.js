@@ -10,11 +10,7 @@ class Login extends PureComponent {
     super(props);
     this.state = {
       Username: "",
-      Password: "",
-      validationError: {
-        Username: "",
-        Password: ""
-      }
+      Password: ""
     };
   }
 

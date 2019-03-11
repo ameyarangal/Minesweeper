@@ -1,0 +1,10 @@
+@media all and (min-width: 480px) {
+  /* .userDifficulty {
+        padding: 60px 0;
+      }
+     */
+  .userDifficulty {
+    margin: 0 auto;
+    max-width: 320px;
+  }
+}

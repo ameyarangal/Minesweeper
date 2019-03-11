@@ -11,13 +11,15 @@ class Header extends PureComponent {
   };
   render() {
     return (
-      <div>
+      <div className="header">
         <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-          <Navbar.Brand href="#home">Minesweeper</Navbar.Brand>
+          <Link to="/" className="navbar-brand">
+            Minesweeper
+          </Link>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="mr-auto">
-              <Link to="/" className="nav-link">
+              <Link to="/user" className="nav-link">
                 User
               </Link>
 

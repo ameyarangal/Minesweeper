@@ -1,6 +1,6 @@
 import React, { PureComponent } from "react";
 
-export const getApi = (url, type, onSuccess, onFailure) => {
+export const getApi = (url, onSuccess, onFailure) => {
   fetch(url, {
     method: "GET",
     mode: "cors", // no-cors, cors, *same-origin
@@ -22,16 +22,6 @@ export const getApi = (url, type, onSuccess, onFailure) => {
 };
 
 export const postApi = (url, onSuccess, onFailure, data = {}) => {
-  console.log(data);
-  console.log(onSuccess);
-  // onSuccess("Done");
-  // onSuccess({
-  //   isLoggedIn: true,
-  //   firstName: "Ameya",
-  //   lastName: "Angal",
-  //   emailAddress: "aangal@iu.edu",
-  //   contactNumber: "8122725134"
-  // });
   fetch(url, {
     method: "POST",
     mode: "cors", // no-cors, cors, *same-origin
@@ -39,7 +29,6 @@ export const postApi = (url, onSuccess, onFailure, data = {}) => {
     credentials: "same-origin", // include, *same-origin, omit
     headers: {
       "Content-Type": "application/json"
-      // "Content-Type": "application/x-www-form-urlencoded",
     },
     body: JSON.stringify(data)
   })
