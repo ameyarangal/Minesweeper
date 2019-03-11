@@ -14,6 +14,14 @@ var Users = {
       callback
     );
   },
+  verifyUser: function(UsersDetails, callback) {
+    console.log(UsersDetails);
+    return db.query(
+      "select * from Users where Username = ? and Password = ?",
+      [UsersDetails.Username, UsersDetails.Password],
+      callback
+    );
+  },
   createUser: function(Users, callback) {
     console.log(Users);
     return db.query(

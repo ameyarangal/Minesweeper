@@ -34,14 +34,31 @@ router.get("/getByUsername/:username", function(req, res, next) {
   });
 });
 
-router.post("/", function(req, res, next) {
-  console.log("request body");
+router.post("/verify", function(req, res, next) {
   console.log(req.body);
-  user.createUser(req.body, function(err, count) {
+  user.verifyUser(req.body, function(err, result) {
+    console.log(`result`);
+    console.log(result);
     if (err) {
       res.json(err);
     } else {
-      res.json(count); //or return count for 1 &amp;amp;amp; 0
+      if (result.length === 0) {
+        res.status(400).send({ error: "Invalid username and password" });
+      } else {
+        res.json(result[0]);
+      }
+    }
+  });
+});
+
+router.post("/", function(req, res, next) {
+  console.log("request body");
+  console.log(req.body);
+  user.createUser(req.body, function(err, result) {
+    if (err) {
+      res.json(err);
+    } else {
+      res.json(result);
     }
   });
 });
