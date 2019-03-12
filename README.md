@@ -33,7 +33,7 @@ The main functionality/game logic is implemented in React.  On initial render of
     ├── routes
     ├── sql_db
     └── views
-    ```
+```
 
 
 Minesweeper - Contains UI code
