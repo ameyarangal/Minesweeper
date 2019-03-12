@@ -113,6 +113,7 @@ Deployment - **Docker** <br>
 2. When number of mines are too large (greater than permissible limit of total tiles - 9)
 3. Application not optimized for Mozilla browser (when player clicks on tile, tile content is shown as selected)
 4. New game modal not optimized to view on Mobile.
+5. Sometimes player win's before opening few tiles. This issue is very intermittent, encountered on 2 instances after playing 10-15 games in a row.
 
 
 
