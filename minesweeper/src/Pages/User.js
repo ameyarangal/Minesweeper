@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Table, Form, Col } from "react-bootstrap";
 import "./User.css";
 import { getApi } from "../Common/Api";
+import { stat } from "fs";
 
 class User extends PureComponent {
   constructor(props) {
@@ -25,7 +26,7 @@ class User extends PureComponent {
 
   componentDidMount() {
     getApi(
-      "http://localhost:3010/history/",
+      `http://localhost:3010/history/getByUserId/${this.props.userId}`,
       this.onGetSuccess,
       this.onGetFailure
     );
@@ -60,7 +61,6 @@ class User extends PureComponent {
                 >
                   <Form.Label>Difficulty</Form.Label>
                   <Form.Control
-                    inline
                     onChange={event => this.onDifficultyLevelChange(event)}
                     as="select"
                     placeholder="select"
@@ -79,7 +79,7 @@ class User extends PureComponent {
             <thead>
               <tr>
                 <th>#</th>
-                <th>Score</th>
+                <th>Time</th>
                 <th>Status</th>
                 <th>Difficulty</th>
                 <th>Date</th>
@@ -108,7 +108,8 @@ class User extends PureComponent {
 }
 
 const mapStateToProps = state => ({
-  isLoggedIn: state.user.isLoggedIn
+  isLoggedIn: state.user.isLoggedIn,
+  userId: state.user.Id
 });
 
 export default connect(mapStateToProps)(User);

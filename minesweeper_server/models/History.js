@@ -7,7 +7,7 @@ var History = {
   },
   getLeaderBoard: function(callback) {
     return db.query(
-      "select Users.FirstName, Users.LastName, History.Score, History.Difficulty, History.Date from Users inner join History on Users.Id = History.UserId order by History.Score desc;",
+      "select Users.FirstName, Users.LastName, History.Score, History.Difficulty, History.Date from Users inner join History on Users.Id = History.UserId order by History.Score asc;",
       callback
     );
   },

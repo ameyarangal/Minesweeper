@@ -15,7 +15,7 @@ router.get("/", function(req, res, next) {
 });
 
 router.get("/getByUserId/:userid", function(req, res, next) {
-  history.getUserByUsername(req.params.userid, function(err, rows) {
+  history.getHistoryByUserId(req.params.userid, function(err, rows) {
     if (err) {
       res.json(err);
     } else {

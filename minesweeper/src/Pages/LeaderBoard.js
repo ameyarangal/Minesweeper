@@ -59,7 +59,6 @@ class LeaderBoard extends PureComponent {
                 >
                   <Form.Label>Difficulty</Form.Label>
                   <Form.Control
-                    inline
                     onChange={event => this.onDifficultyLevelChange(event)}
                     as="select"
                     placeholder="select"
@@ -77,7 +76,7 @@ class LeaderBoard extends PureComponent {
               <tr>
                 <th>#</th>
                 <th>Name</th>
-                <th>Score</th>
+                <th>Time</th>
                 <th>Difficulty</th>
                 <th>Date</th>
               </tr>
