@@ -11,7 +11,7 @@ The main functionality/game logic is implemented in React.  On initial render of
 
 
 ## Project/Code Structure
-
+```bash
 ├── minesweeper
 │   ├── public
 │   └── src
@@ -33,6 +33,7 @@ The main functionality/game logic is implemented in React.  On initial render of
     ├── routes
     ├── sql_db
     └── views
+    ```
 
 
 Minesweeper - Contains UI code
