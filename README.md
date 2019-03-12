@@ -36,7 +36,7 @@ The main functionality/game logic is implemented in React.  On initial render of
 ```
 
 
-Minesweeper - Contains UI code
+Minesweeper - Contains UI code <br>
 Minesweeper_server - Contains code for API and DB.
 
 ## Game
@@ -79,7 +79,7 @@ They are used to mark a tile as mine. They are initialized with number of mines 
 
 ## Application
 
-###Home
+### Home
 
 On home screen, a player can play the minesweeper game with or without login. Login is optional for playing a game
 
@@ -101,11 +101,11 @@ Shows top 10 user’s who completed the game winning in shortest time depending 
 
 ## Technologies Used
 
-UI - React JS
-CSS - React Bootstrap
-API - Node JS
-DB - MySQL
-Deployment - Docker
+UI - **React JS** <br>
+CSS - **React Bootstrap** <br>
+API - **Node JS** <br>
+DB - **MySQL** <br>
+Deployment - **Docker** <br>
 
 ## Known Issues
 
