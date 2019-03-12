@@ -26,7 +26,7 @@ class User extends PureComponent {
 
   componentDidMount() {
     getApi(
-      `http://localhost:3010/history/getByUserId/${this.props.userId}`,
+      `/history/getByUserId/${this.props.userId}`,
       this.onGetSuccess,
       this.onGetFailure
     );
