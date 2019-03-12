@@ -22,8 +22,8 @@ class Header extends PureComponent {
               <Link to="/" className="nav-link">
                 Home
               </Link>
-              <Link to="/user" className="nav-link">
-                User
+              <Link to="/history" className="nav-link">
+                History
               </Link>
 
               <Link to="/leaderboard" className="nav-link">

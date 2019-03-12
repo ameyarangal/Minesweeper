@@ -151,7 +151,7 @@ export default class Help extends PureComponent {
           <p>Used to register a new user to the application.</p>
         </Row>
         <Row>
-          <h4>User</h4>
+          <h4>History</h4>
         </Row>
         <Row>
           <p>
