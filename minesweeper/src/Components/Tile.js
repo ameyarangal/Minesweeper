@@ -5,6 +5,18 @@ import Flag from "../Images/Flag.png";
 import WrongFlag from "../Images/WrongFlag.png";
 
 export default class Tile extends PureComponent {
+  handleLeftClick = (e, row, col) => {
+    if (!this.props.cheat) {
+      this.props.onclickHandler(e, row, col);
+    }
+  };
+
+  handleRightClick = (e, row, col) => {
+    if (!this.props.cheat) {
+      this.props.handleRightClick(e, row, col);
+    }
+  };
+
   render() {
     const { row, col, value, display, flag, gameStatus } = this.props;
     let classname = "";
@@ -46,8 +58,8 @@ export default class Tile extends PureComponent {
       return (
         <div
           className="tile hideTile"
-          onClick={e => this.props.onclickHandler(e, row, col)}
-          onContextMenu={e => this.props.handleRightClick(e, row, col)}
+          onClick={e => this.handleLeftClick(e, row, col)}
+          onContextMenu={e => this.handleRightClick(e, row, col)}
         >
           <div className="content">
             {value >= 0 && gameStatus === "Lost" ? (
@@ -64,8 +76,8 @@ export default class Tile extends PureComponent {
       return (
         <div
           className={display == true ? "tile showTile mine" : "tile hideTile "}
-          onClick={e => this.props.onclickHandler(e, row, col)}
-          onContextMenu={e => this.props.handleRightClick(e, row, col)}
+          onClick={e => this.handleLeftClick(e, row, col)}
+          onContextMenu={e => this.handleRightClick(e, row, col)}
         >
           <div className="content">
             {display && <img src={landMine} className="img" />}
@@ -78,8 +90,8 @@ export default class Tile extends PureComponent {
       return (
         <div
           className={display == true ? "tile showTile" : "tile hideTile"}
-          onClick={e => this.props.onclickHandler(e, row, col)}
-          onContextMenu={e => this.props.handleRightClick(e, row, col)}
+          onClick={e => this.handleLeftClick(e, row, col)}
+          onContextMenu={e => this.handleRightClick(e, row, col)}
         >
           <div className="content">
             {display && <div className={classname}>{value}</div>}{" "}
@@ -92,8 +104,8 @@ export default class Tile extends PureComponent {
       return (
         <div
           className={display == true ? "tile showTile" : "tile hideTile"}
-          onClick={e => this.props.onclickHandler(e, row, col)}
-          onContextMenu={e => this.props.handleRightClick(e, row, col)}
+          onClick={e => this.handleLeftClick(e, row, col)}
+          onContextMenu={e => this.handleRightClick(e, row, col)}
         >
           <div className="content"> </div>
         </div>
@@ -103,8 +115,8 @@ export default class Tile extends PureComponent {
       // This is to accomodate the case when the game has not started.
       <div
         className="tile hideTile"
-        onClick={e => this.props.onclickHandler(e, row, col)}
-        onContextMenu={e => this.props.handleRightClick(e, row, col)}
+        onClick={e => this.handleLeftClick(e, row, col)}
+        onContextMenu={e => this.handleRightClick(e, row, col)}
       >
         <div className="content"> </div>
       </div>

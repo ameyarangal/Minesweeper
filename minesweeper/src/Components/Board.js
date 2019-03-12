@@ -11,8 +11,10 @@ import {
 import GameConfirmationModal from "./GameConfirmationModal";
 import NewGameModal from "./NewGameModal";
 import Timer from "./Timer";
+import { postApi } from "../Common/Api";
+import { connect } from "react-redux";
 
-export default class Board extends PureComponent {
+class Board extends PureComponent {
   state = {
     board: this.props.board,
     rows: this.props.rows,
@@ -30,7 +32,9 @@ export default class Board extends PureComponent {
     flags: this.props.mines_number,
     startTimer: false,
     endTimer: false,
-    restartTimer: false
+    restartTimer: false,
+    counter: 0,
+    cheat: false
   };
 
   //   Handles functionality when user right clicks on a particular tile (i, j)
@@ -126,6 +130,7 @@ export default class Board extends PureComponent {
           status: "Playing",
           clickedTiles: result.clicked,
           startTimer: true,
+          endTimer: false,
           restartTimer: false
         });
       }
@@ -142,7 +147,9 @@ export default class Board extends PureComponent {
         this.state.board[0].length,
         0
       );
-
+      console.log(
+        `No of tiles clicked ${this.state.clickedTiles + result.clicked}`
+      );
       // Check game status.
       if (this.isGameWon(this.state.clickedTiles + result.clicked)) {
         this.setWinningBoard(result.board);
@@ -158,7 +165,7 @@ export default class Board extends PureComponent {
     ) {
       // When user clicks a non zero tile while playing display only that tile.
       currentBoard[i][j]["display"] = true;
-
+      console.log(`No of tiles clicked ${this.state.clickedTiles + 1}`);
       if (this.isGameWon(this.state.clickedTiles + 1)) {
         this.setWinningBoard(currentBoard);
       } else {
@@ -179,6 +186,8 @@ export default class Board extends PureComponent {
   // Returns - Boolean
   isGameWon = tilesClicked => {
     let safe_tiles = this.state.rows * this.state.cols - this.state.mines_num;
+    console.log(`safe tiles are ${safe_tiles}`);
+    console.log(`tiles clicked in isWon tiles are ${tilesClicked}`);
     if (safe_tiles == tilesClicked) {
       return true;
     } else {
@@ -196,7 +205,8 @@ export default class Board extends PureComponent {
       clickedTiles: 0,
       status: "Victory",
       startTimer: false,
-      endTimer: false,
+      endTimer: true,
+      restartTimer: false,
       showGameConfirmation: true
     });
   };
@@ -215,7 +225,9 @@ export default class Board extends PureComponent {
     this.setState({
       status: "Lost",
       board: board,
+      startTimer: false,
       endTimer: true,
+      restartTimer: false,
       showGameConfirmation: true
     });
   };
@@ -240,12 +252,12 @@ export default class Board extends PureComponent {
         cheatedboard.push(newrow);
       });
 
-      this.setState({ board: cheatedboard });
+      this.setState({ board: cheatedboard, cheat: true });
 
       // Replace the board with the one that the user was plating before he hit cheat button.
       setTimeout(() => {
-        this.setState({ board: currentBoard });
-      }, 3000);
+        this.setState({ board: currentBoard, cheat: false });
+      }, 2000);
     }
   };
 
@@ -284,7 +296,8 @@ export default class Board extends PureComponent {
       flags: this.state.mines_num,
       startTimer: false,
       endTimer: false,
-      restartTimer: true
+      restartTimer: true,
+      counter: 0
     });
   };
 
@@ -314,8 +327,34 @@ export default class Board extends PureComponent {
       flags: mines,
       showNewGameModal: false,
       status: "Default",
-      restartTimer: true
+      startTimer: false,
+      endTimer: false,
+      restartTimer: true,
+      counter: 0
     });
+  };
+
+  handleTimerStop = time => {
+    // this.setState({ counter: time });
+    console.log(`time is ${time}`);
+    if (this.props.isLoggedIn) {
+      let postdata = {
+        UserId: this.props.userId,
+        Score: time,
+        Status: this.state.status,
+        Difficulty: this.state.difficulty
+      };
+      postApi(
+        "http://localhost:3010/history/",
+        data => {
+          console.log(data);
+        },
+        err => {
+          console.log(err);
+        },
+        postdata
+      );
+    }
   };
 
   render() {
@@ -371,6 +410,7 @@ export default class Board extends PureComponent {
                 start={this.state.startTimer}
                 end={this.state.endTimer}
                 restart={this.state.restartTimer}
+                onTimerEnd={time => this.handleTimerStop(time)}
               />
             </div>
           </div>
@@ -387,6 +427,7 @@ export default class Board extends PureComponent {
                       display={board[i][j]["display"]}
                       value={board[i][j]["value"]}
                       flag={board[i][j]["flag"]}
+                      cheat={this.state.cheat}
                       gameStatus={this.state.status}
                       onclickHandler={(e, i, j) => {
                         this.handleOnTileClick(e, i, j);
@@ -405,3 +446,17 @@ export default class Board extends PureComponent {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  isLoggedIn: state.user.isLoggedIn,
+  loginMessage: state.user.loginMessage,
+  userId: state.user.Id,
+  firstName: state.user.FirstName,
+  lastName: state.user.LastName,
+  username: state.user.Username
+});
+
+export default connect(
+  mapStateToProps,
+  { postApi }
+)(Board);

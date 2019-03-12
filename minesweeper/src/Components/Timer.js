@@ -10,15 +10,30 @@ export default class Timer extends PureComponent {
     ended: false
   };
 
-  componentDidMount() {
-    setInterval(() => {
-      if (this.props.restart) {
+  interval = null;
+
+  componentDidUpdate(prevProps) {
+    if (
+      prevProps.start !== this.props.start ||
+      prevProps.end !== this.props.end ||
+      prevProps.restart !== this.props.restart
+    ) {
+      if (this.props.start) {
+        this.interval = setInterval(() => {
+          this.setState({ counter: this.state.counter + 1 });
+        }, 1000);
+      } else if (this.props.end) {
+        if (this.interval) {
+          clearInterval(this.interval);
+        }
+        this.props.onTimerEnd(this.state.counter);
+      } else if (this.props.restart) {
+        if (this.interval) {
+          clearInterval(this.interval);
+        }
         this.setState({ counter: 0 });
       }
-      if (this.props.start && !this.props.end) {
-        this.setState({ counter: this.state.counter + 1 });
-      }
-    }, 1000);
+    }
   }
 
   render() {
