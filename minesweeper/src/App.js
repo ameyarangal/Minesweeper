@@ -11,6 +11,7 @@ import Register from "./Pages/Register";
 import LeaderBoard from "./Pages/LeaderBoard";
 import User from "./Pages/User";
 import { Route } from "react-router-dom";
+import Help from "./Pages/Help";
 
 class App extends Component {
   render() {
@@ -30,6 +31,7 @@ class App extends Component {
           <Route exact path="/register" component={Register} />
           <Route exact path="/leaderboard" component={LeaderBoard} />
           <Route exact path="/user" component={User} />
+          <Route exact path="/help" component={Help} />
         </Provider>
       </div>
     );

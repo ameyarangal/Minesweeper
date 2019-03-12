@@ -19,12 +19,18 @@ class Header extends PureComponent {
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="mr-auto">
+              <Link to="/" className="nav-link">
+                Home
+              </Link>
               <Link to="/user" className="nav-link">
                 User
               </Link>
 
               <Link to="/leaderboard" className="nav-link">
                 Leader Board
+              </Link>
+              <Link to="/help" className="nav-link">
+                Help
               </Link>
             </Nav>
 

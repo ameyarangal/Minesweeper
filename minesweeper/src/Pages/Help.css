@@ -1,0 +1,39 @@
+.help h2 {
+  font-size: 1.5em;
+  width: 100%;
+}
+.help h1,
+.help h2 {
+  border-bottom: 1px solid #eaecef;
+  padding-bottom: 0.3em;
+}
+
+.help h3 {
+  font-size: 1.25em;
+}
+.help h1,
+.help h2,
+.help h3,
+.help h4,
+.help h5,
+.help h6 {
+  font-weight: 600;
+  line-height: 1.25;
+  margin-bottom: 16px;
+  margin-top: 24px;
+}
+
+.help ol,
+.help ul {
+  padding-left: 2em;
+}
+.help blockquote,
+.help dl,
+.help ol,
+.help p,
+.help pre,
+.help table,
+.help ul {
+  margin-bottom: 16px;
+  margin-top: 0;
+}
