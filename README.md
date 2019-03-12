@@ -7,7 +7,9 @@ This is the famous Minesweeper game developed in React It provides all the funct
 
 ## Architecture
 
-The main functionality/game logic is implemented in React.  On initial render of the board, it is filled with a default number (-10). When the user first clicks on any single tile, the game starts and board is filled with number of mines mentioned by the user. Then I calculate number of mines that are neighbor to particular tile and then assign that tile its count. Game always starts with 0 tile (no neighboring tile contains mines). When the user clicks on a 0 tile, I show all the neighboring tiles who has value 0 and first non 0 tile (excluding tile that contains mine). I have applied Depth First Search starting from 0 tile to simulate clicking neighboring tiles behavior. When the game is started and a tile is clicked I display only that tile (if non 0), and if the tile contains mine the game ends in loss. On every tile click I check if the game is Won or not depending on number of safe tiles( total tiles - number of mines) being equal to 0 or not. If the game ends in Win, I display all the location of the mines with a flag on it. If the game ends in Loss, I display all the mines location. Timer starts when the game starts (user first left click) and ends when the game ends wither in Win or Loss. Timer value becomes the score for that game. On validate button click I check the remaining tiles to be clicked so as to complete the game. On cheat button click I temporarily show the all mine locations for 2 sec. 
+The main functionality/game logic is implemented in React.  On initial render of the board, it is filled with a default number (-10). When the player first clicks on any single tile, the game starts and board is filled with number of mines mentioned by the user except for the first clicked tile. Then a tile is assigned value that equals number of mines surroding that particular tile. Game always starts with 0 tile (no neighboring tile contains mines). When the player clicks on a 0 tile, all the neighboring tiles who has value 0 and first non 0 tile (excluding tile that contains mine) are displayed. Applied Depth First Search starting from 0 tile to simulate clicking neighboring tiles behavior. When the game is started and a tile is clicked only that tike is displayed (if non 0), and if the tile contains mine the game ends in loss. On every tile click there is a check if the game is Won or not depending on number of safe tiles( total tiles - number of mines) being equal to 0 or not. If the game ends in Win, all the location of the mines are displayed with a flag on it. If the game ends in Loss, all the mines location are displayed with mines on it. Timer starts when the game starts (user first left click) and ends when the game ends either in Win or Loss. Timer value becomes the score for that game. On validate button click user is informed on the remaining tiles to be clicked so as to complete the game. On cheat button click all mine locations are displayed temporarily for 2 sec before rendering the previous board. Player can flag a particular tile and if the player loses a wrongly placed tile is shown as cross. <br>
+
+In code, mine is represented as -1 value and game states are "Default" (Not started), "Playing", "Victory" and "Lost".
 
 
 ## Project/Code Structure
@@ -83,21 +85,25 @@ They are used to mark a tile as mine. They are initialized with number of mines 
 
 On home screen, a player can play the minesweeper game with or without login. Login is optional for playing a game
 
-### Login
+### Login Page
 
 Used to login to the application. Logged in user’s playing history will be logged and considered for Leader board.
 
-### Register
+### Register Page
 
 Used to register a new user to the application.
 
-### User
+### History Page
 
 Shows player’s game history with status, score, date and difficulty level.
 
-### Leader Board
+### Leader Board Page
 
 Shows top 10 user’s who completed the game winning in shortest time depending on difficulty level.
+
+### Help Page
+
+Provides help regarding playing the game and using the application.
 
 ## Technologies Used
 
@@ -110,10 +116,9 @@ Deployment - **Docker** <br>
 ## Known Issues
 
 1. Currently I am saving the passwords directly in DB.
-2. When number of mines are too large (greater than permissible limit of total tiles - 9)
-3. Application not optimized for Mozilla browser (when player clicks on tile, tile content is shown as selected)
-4. New game modal not optimized to view on Mobile.
-5. Sometimes player win's before opening few tiles. This issue is very intermittent, encountered on 2 instances after playing 10-15 games in a row.
+2. Application not optimized for Mozilla browser (when player clicks on tile, tile content is shown as selected)
+3. New game modal not optimized to view on Mobile.
+4. Sometimes player win's before opening few tiles. This issue is very intermittent, encountered on 2 instances after playing 10-15 games in a row.
 
 
 
