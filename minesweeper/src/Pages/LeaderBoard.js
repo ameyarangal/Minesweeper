@@ -24,20 +24,8 @@ class LeaderBoard extends PureComponent {
   };
 
   componentDidMount() {
-    getApi(
-      "http://localhost:3010/history/getLeaderBoard",
-      this.onGetSuccess,
-      this.onGetFailure
-    );
+    getApi("/history/getLeaderBoard", this.onGetSuccess, this.onGetFailure);
   }
-
-  // filterDetails = value => {
-  //   if (this.state.difficultyLevel === "All") {
-  //     return true;
-  //   } else {
-  //     return value.Difficulty === this.state.difficultyLevel;
-  //   }
-  // };
 
   onDifficultyLevelChange = event => {
     console.log(event.target.value);

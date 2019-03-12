@@ -1,7 +1,14 @@
 import React, { PureComponent } from "react";
 
+const getDomain = () => {
+  return "http://149.165.156.112:3010";
+  // return "http://localhost:3010";
+};
+
 export const getApi = (url, onSuccess, onFailure) => {
-  fetch(url, {
+  let domain = getDomain();
+  let completeUrl = `${domain}${url}`;
+  fetch(completeUrl, {
     method: "GET",
     mode: "cors", // no-cors, cors, *same-origin
     cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
@@ -22,7 +29,9 @@ export const getApi = (url, onSuccess, onFailure) => {
 };
 
 export const postApi = (url, onSuccess, onFailure, data = {}) => {
-  fetch(url, {
+  let domain = getDomain();
+  let completeUrl = `${domain}${url}`;
+  fetch(completeUrl, {
     method: "POST",
     mode: "cors", // no-cors, cors, *same-origin
     cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached

@@ -345,7 +345,7 @@ class Board extends PureComponent {
         Difficulty: this.state.difficulty
       };
       postApi(
-        "http://localhost:3010/history/",
+        "/history",
         data => {
           console.log(data);
         },

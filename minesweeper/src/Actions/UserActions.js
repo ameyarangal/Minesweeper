@@ -2,7 +2,7 @@ import { LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT } from "../Constants/Constants";
 import { postApi } from "../Common/Api";
 
 export const login = (username, password, onSuccessfulLogin) => dispatch => {
-  let url = `http://localhost:3010/users/verify`;
+  let url = `/users/verify`;
   let postdata = {
     Username: username,
     Password: password
@@ -50,7 +50,7 @@ export const register = (
   password,
   onSuccessfulRegister
 ) => dispatch => {
-  let url = `http://localhost:3010/users/`;
+  let url = `/users`;
   let postdata = {
     FirstName: firstName,
     LastName: lastName,
