@@ -25,7 +25,7 @@ export default class Help extends PureComponent {
           <Row>
             <li>
               When player clicks a 0 tile, all the neighboring tiles with first
-              occurring non 0 tile or mine tile are displayed.
+              occurring non 0 tile are displayed.
             </li>
           </Row>
           <Row>
@@ -99,7 +99,8 @@ export default class Help extends PureComponent {
         <Row>
           <p>
             On winning or losing a particular game, player has an option to
-            restart the game (contains same configuration)
+            restart the game (contains same rows, cols and number of mines as
+            before)
           </p>
         </Row>
         <Row>
@@ -118,7 +119,8 @@ export default class Help extends PureComponent {
           <p>
             They are used to mark a tile as mine. They are initialized with
             number of mines on the board. On every flag placement, its value
-            decreases.
+            decreases. A flag can be removed by left clicking the same tile
+            once. On losing a wrongly placed flag is shown as cross.
           </p>
         </Row>
         <Row>

@@ -41,7 +41,7 @@ export default class Timer extends PureComponent {
       <div>
         <h3 className="margin">
           <Badge>Timer</Badge>
-          <Alert variant="secondary">{this.state.counter}</Alert>
+          <Alert variant="dark">{this.state.counter}</Alert>
         </h3>
       </div>
     );

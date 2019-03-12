@@ -404,7 +404,7 @@ class Board extends PureComponent {
             <div className="boardDisplay">
               <h3 className="margin">
                 <Badge>Flag</Badge>
-                <Alert variant="secondary">{this.state.flags}</Alert>
+                <Alert variant="dark">{this.state.flags}</Alert>
               </h3>
               <Timer
                 start={this.state.startTimer}
