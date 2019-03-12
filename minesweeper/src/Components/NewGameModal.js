@@ -22,6 +22,34 @@ export default class NewGameModal extends PureComponent {
     };
   }
 
+  okClickHandler = () => {
+    if (this.state.difficulty === "Custom") {
+      let rows = this.state.rows;
+      let cols = this.state.cols;
+      let mines = this.state.mines;
+
+      // IF rows or cols less than 5 then set it to 5 by default
+      if (rows < 5) {
+        rows = 5;
+      }
+      if (cols < 5) {
+        cols = 5;
+      }
+      if (mines > rows * cols - 10) {
+        mines = rows; // If number of mines greater than total tiles - 10 then place mines equal to rows.
+      }
+
+      this.props.handleOk(rows, cols, mines, this.state.difficulty);
+    } else {
+      this.props.handleOk(
+        this.state.rows,
+        this.state.cols,
+        this.state.mines,
+        this.state.difficulty
+      );
+    }
+  };
+
   handleChange = (e, data) => {
     this.setState({ [e.target.name]: e.target.value });
   };
@@ -140,17 +168,7 @@ export default class NewGameModal extends PureComponent {
             >
               Close
             </Button>
-            <Button
-              variant="dark"
-              onClick={() =>
-                this.props.handleOk(
-                  this.state.rows,
-                  this.state.cols,
-                  this.state.mines,
-                  this.state.difficulty
-                )
-              }
-            >
+            <Button variant="dark" onClick={() => this.okClickHandler()}>
               Ok
             </Button>
           </Modal.Footer>
