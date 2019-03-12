@@ -76,7 +76,7 @@ Increments after every 1 second. On winning, the timer value is considered as sc
 
 ### Flags:
 
-They are used to mark a tile as mine. They are initialized with number of mines on the board. On every flag placement, its value decreases.
+They are used to mark a tile as mine. They are initialized with number of mines on the board. On every flag placement, its value decreases. On winning the game all the mine locations are displayed as flagged. And on losing the game, wrongly placed flags are displayed as cross.
 
 
 ## Application
